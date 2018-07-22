@@ -8,25 +8,20 @@ const getLugarLatLng = async(direccion) => {
 
     let decodeDir = decodeURI(direccion);
 
-    try {
-        let resp = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${ decodeDir}`);
+    let resp = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${ decodeDir}`);
 
-        if (resp.data.status === 'ZERO_RESULTS') {
-            throw new Error(`No se encontraron resultados para la direccion ${ direccion }`);
-        }
-
-        let coors = resp.data.results[0].geometry.location;
-        let location = resp.data.results[0];
-
-        return {
-            direccion: location.formatted_address,
-            lat: coors.lat,
-            lng: coors.lng
-        };
-
-    } catch (error) {
-        throw new Error('No se pudieron obtener los datos. Revise URL o Conexion a Internet');
+    if (resp.data.status === 'ZERO_RESULTS') {
+        throw new Error(`No se encontraron resultados para la direccion ${ direccion }`);
     }
+
+    let coors = resp.data.results[0].geometry.location;
+    let location = resp.data.results[0];
+
+    return {
+        direccion: location.formatted_address,
+        lat: coors.lat,
+        lng: coors.lng
+    };
 }
 
 module.exports = {
