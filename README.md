@@ -2,6 +2,7 @@
 
 
 Recuerde instalar los modulos
-````
+
+```
     npm install
 ```
